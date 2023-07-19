@@ -59,10 +59,17 @@ const Inventory = () => {
             <option value="10-20">10 -20</option>
             <option value="20-40">20-40</option>
           </Select>
-          <Select placeholder="Select option">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+          <Select placeholder="Filter By Price">
+            <option value="100000">less than 100000</option>
+            <option value="200000">less than 200000</option>
+            <option value="300000">less than 300000 </option>
+          </Select>
+          <Select placeholder="Filter By Color">
+            <option value="Red">Red</option>
+            <option value="Yellow">Yellow</option>
+            <option value="Black">Black</option>
+            <option value="Blue">Blue</option>
+            <option value="Other">Other </option>
           </Select>
           <Input
             name="search"
