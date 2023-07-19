@@ -44,7 +44,7 @@ export const login = (email, password) => async (dispatch) => {
   let obj = { email: email, password: password };
   dispatch(loginRequestAction());
   try {
-    console.log(`${url}user/login`, obj);
+    //  console.log(`${url}user/login`, obj);
 
     const res = await axios.post(`${url}user/login`, obj);
 

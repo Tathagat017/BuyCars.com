@@ -46,3 +46,53 @@ export const postData = (token, obj) => async (dispatch) => {
     dispatch(Data_Failure_action(err));
   }
 };
+
+export const patchData = (token, id) => async (dispatch) => {
+  dispatch(Data_Req_action());
+  try {
+    console.log(token);
+    const res = await axios.patch(`${url}inventory/deal/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // console.log(res.data);
+    dispatch(Data_Success_action(res.data));
+  } catch (err) {
+    console.log(err);
+    dispatch(Data_Failure_action(err));
+  }
+};
+
+export const deletehData = (token, id) => async (dispatch) => {
+  dispatch(Data_Req_action());
+  try {
+    const res = await axios.delete(`${url}inventory/deal/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // console.log(res.data);
+    dispatch(Data_Success_action(res.data));
+  } catch (err) {
+    console.log(err);
+    dispatch(Data_Failure_action(err));
+  }
+};
+
+export const deletehDataMany = (token, obj, id) => async (dispatch) => {
+  dispatch(Data_Req_action());
+  try {
+    console.log(token, obj);
+    const res = await axios.delete(`${url}inventory/deal/deleteMany`, obj, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // console.log(res.data);
+    dispatch(Data_Success_action(res.data));
+  } catch (err) {
+    console.log(err);
+    dispatch(Data_Failure_action(err));
+  }
+};

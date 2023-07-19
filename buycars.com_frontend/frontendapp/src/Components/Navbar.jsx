@@ -64,6 +64,7 @@ const Navbar = () => {
         >
           <Link href="/">Home</Link>
           <Link href="/deals">Deals</Link>
+          <Link href="/inventory">Inventory</Link>
           <Link href="/signin">Signup/Login</Link>
         </Stack>
       </Flex>

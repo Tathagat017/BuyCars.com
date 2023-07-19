@@ -16,11 +16,13 @@ import {
   Button,
   Flex,
   Input,
+  Select,
 } from "@chakra-ui/react";
 
 import TableRow from "./../Components/TableRow";
 import useDebounce from "../CutomHooks/UseThrottle";
 import { getData } from "../Redux/Inventory/actionCreater";
+import InventoryRow from "../Components/Inventory_Card";
 
 const Inventory = () => {
   const [page, setPage] = useState(1);
@@ -52,6 +54,16 @@ const Inventory = () => {
       <TableContainer>
         <Flex justifyContent={"space-evenly"}>
           <Button onClick={handlePagePrev}>Previous</Button>
+          <Select placeholder="Filter By Mileage ">
+            <option value="1-10">1-10</option>
+            <option value="10-20">10 -20</option>
+            <option value="20-40">20-40</option>
+          </Select>
+          <Select placeholder="Select option">
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+          </Select>
           <Input
             name="search"
             placeholder="search model/Manufacturer/Year"
@@ -62,25 +74,11 @@ const Inventory = () => {
           <Button onClick={handlePageNext}>Next</Button>
         </Flex>
         <Table size={isTableFullWidth ? "md" : "sm"}>
-          <TableCaption size="sm">OEM SPECIFICATIONS</TableCaption>
+          <TableCaption size="sm">Inventory</TableCaption>
 
-          <Thead>
-            <Tr>
-              <Th>Manufacturer</Th>
-              <Th>Model</Th>
-              <Th>Year of Launch</Th>
-              <Th>Ex-showroom price</Th>
-              <Th>Colors</Th>
-              <Th>Mileage</Th>
-              <Th>Max Speed(km/h)</Th>
-              <Th>Power(BHP)</Th>
-              <Th>Image</Th>
-              <Th>Select</Th>
-            </Tr>
-          </Thead>
           <Tbody>
-            {oem_specs?.map((el) => {
-              return <TableRow el={el} />;
+            {inventory_data?.map((el) => {
+              return <InventoryRow el={el} />;
             })}
           </Tbody>
         </Table>

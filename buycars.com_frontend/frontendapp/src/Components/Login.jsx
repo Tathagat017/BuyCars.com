@@ -60,7 +60,7 @@ const Login = () => {
           isClosable: true,
           colorScheme: "orange",
         });
-        navigate("/deals");
+        sessionStorage.setItem("auth", JSON.stringify({ auth: true }));
       } else {
         toast({
           title: `login failure`,
