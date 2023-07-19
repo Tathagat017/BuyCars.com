@@ -45,12 +45,13 @@ const Navbar = () => {
           onClick={isOpen ? onClose : onOpen}
           display={["inline", "none"]}
           // border='1px'
+          color={"orange"}
         />
       </Flex>
       <Flex
         display={[isOpen ? "flex" : "none", "flex"]}
         justifyContent={"center"}
-        bg={["#222222", "#282c34"]}
+        bg={["#282c34", "#282c34"]}
       >
         <Stack
           align="center"

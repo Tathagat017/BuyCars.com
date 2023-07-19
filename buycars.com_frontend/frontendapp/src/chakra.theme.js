@@ -13,6 +13,15 @@ const theme = extendTheme({
       },
     },
   },
+  components: {
+    Table: {
+      variants: {
+        smaller: {
+          fontSize: "sm", // Customize the font size for the smaller table variant
+        },
+      },
+    },
+  },
 });
 
 export default theme;

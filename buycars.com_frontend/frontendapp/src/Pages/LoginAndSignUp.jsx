@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Signup from "../Components/Login";
-import Login from "../Components/SignUp";
+import Signup from "../Components/SignUp";
+import Login from "../Components/Login";
 import { Flex, Box, Stack, Button, background } from "@chakra-ui/react";
 const LoginAndSignUp = () => {
   const [login, showLogin] = useState(false);
@@ -33,8 +33,8 @@ const LoginAndSignUp = () => {
           Signup
         </Button>
       </Flex>
-      {login && <Signup />}
-      {!login && <Login />}
+      {!login && <Signup handleLogin={handleLogin} />}
+      {login && <Login />}
     </div>
   );
 };

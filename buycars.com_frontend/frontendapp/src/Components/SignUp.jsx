@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { signupFunction } from "./../Redux/Auth/actionCreater";
 import {
   Flex,
   Box,
@@ -12,11 +13,12 @@ import {
   Button,
   Text,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
-import { Spinner } from "@chakra-ui/react";
+
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
-export default function Signup() {
+export default function Signup({ handleLogin }) {
   const [showPassword, setShowPassword] = useState(false);
 
   const [userDetails, setDetails] = useState({
@@ -24,6 +26,8 @@ export default function Signup() {
     email: "",
     password: "",
   });
+  const toast = useToast();
+  const dispatch = useDispatch();
 
   const handleFormInput = (e) => {
     const { name, value } = e.target;
@@ -33,7 +37,9 @@ export default function Signup() {
     }));
   };
 
-  const isLoading = true;
+  const { isLoading, isAuth, isError, signupsuccess } = useSelector(
+    (store) => store.auth
+  );
 
   function isAllPresent(str) {
     var pattern = new RegExp(
@@ -53,7 +59,41 @@ export default function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    isAllPresent(userDetails.password);
+    if (isAllPresent(userDetails.password)) {
+      if (userDetails.full_name && userDetails.email) {
+        dispatch(
+          signupFunction(
+            userDetails.full_name,
+            userDetails.email,
+            userDetails.password
+          )
+        );
+
+        if (signupsuccess) {
+          toast({
+            title: `successfully Registered user`,
+            position: "top",
+            isClosable: true,
+            colorScheme: "orange",
+          });
+          handleLogin((prev) => true);
+        }
+      } else {
+        return toast({
+          title: `Please fill all the details`,
+          position: "top",
+          isClosable: true,
+          colorScheme: "red",
+        });
+      }
+    } else {
+      return toast({
+        title: `Please recheck your password`,
+        position: "top",
+        isClosable: true,
+        colorScheme: "red",
+      });
+    }
   };
 
   return (

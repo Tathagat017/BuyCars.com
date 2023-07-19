@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+//external modules
+import { login } from "../Redux/Auth/actionCreater";
+//charkra imports
 import {
   Flex,
   Box,
@@ -11,24 +16,25 @@ import {
   InputRightElement,
   Stack,
   Button,
-  Heading,
-  Text,
   useColorModeValue,
-  Link,
+  useToast,
 } from "@chakra-ui/react";
 
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const url = "https://plain-dog-swimsuit.cyclic.app/login";
   const [showPassword, setShowPassword] = useState(false);
   const [userDetails, setDetails] = useState({
     email: "",
     password: "",
   });
-
+  const toast = useToast();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { isLoading, isAuth, isError, token } = useSelector(
+    (store) => store.auth
+  );
 
   const handleFormInput = (e) => {
     const { name, value } = e.target;
@@ -46,6 +52,23 @@ const Login = () => {
     } else if (!userDetails.email) {
       return alert("Please fill the email");
     } else {
+      dispatch(login(userDetails.email, userDetails.password));
+      if (isAuth) {
+        toast({
+          title: `Login successful`,
+          position: "top",
+          isClosable: true,
+          colorScheme: "orange",
+        });
+        navigate("/deals");
+      } else {
+        toast({
+          title: `login failure`,
+          position: "bottom",
+          isClosable: true,
+          colorScheme: "orange",
+        });
+      }
     }
   };
 
@@ -96,6 +119,7 @@ const Login = () => {
             <Stack spacing={10} pt={2}>
               <Button
                 loadingText="Submitting"
+                isLoading={isLoading}
                 size="md"
                 color={"#f28c00"}
                 bg={"#282c34"}

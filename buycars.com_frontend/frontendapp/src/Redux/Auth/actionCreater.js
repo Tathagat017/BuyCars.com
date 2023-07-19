@@ -1,5 +1,11 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE } from "./actionTypes";
+import {
+  LOGIN_REQUEST,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
+  SIGNUP_SUCCESS,
+} from "./actionType";
 import axios from "axios";
+import { signup } from "./actionCreater";
 
 const loginRequestAction = () => {
   return { type: LOGIN_REQUEST };
@@ -13,15 +19,35 @@ const loginFailureAction = () => {
   return { type: LOGIN_FAILURE };
 };
 
-const url = process.env.REACT_APP_API_URL;
-console.log(url);
+const signupSucesssAction = () => {
+  return { type: SIGNUP_SUCCESS };
+};
+
+const url = process.env.REACT_APP_URL;
+//console.log(url);
+
+export const signupFunction =
+  (full_name, email, password) => async (dispatch) => {
+    let obj = { email: email, password: password, full_name: full_name };
+    dispatch(loginRequestAction());
+    try {
+      const res = await axios.post(`${url}user/signup`, obj);
+      dispatch(signupSucesssAction());
+    } catch (err) {
+      dispatch(loginFailureAction());
+      console.log(err);
+    }
+  };
+
 export const login = (email, password) => async (dispatch) => {
   //  login Functionality
   let obj = { email: email, password: password };
   dispatch(loginRequestAction());
   try {
-    const res = await axios.post(url, obj);
-    // console.log(res.data.token);
+    console.log(`${url}user/login`, obj);
+
+    const res = await axios.post(`${url}user/login`, obj);
+
     dispatch(loginSuccessAction(res.data.token));
   } catch (err) {
     dispatch(loginFailureAction());
