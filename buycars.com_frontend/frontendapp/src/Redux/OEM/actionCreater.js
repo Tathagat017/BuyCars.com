@@ -14,18 +14,30 @@ function Data_Failure_action(payload) {
 
 let url = process.env.REACT_APP_URL;
 
-export const getOEM = (token) => async (dispatch) => {
-  dispatch(Data_Req_action());
-  try {
-    const res = await axios.get(`${url}oem_specs`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    // console.log(res.data);
-    dispatch(Data_Success_action(res.data.data));
-  } catch (err) {
-    console.log(err);
-    dispatch(Data_Failure_action(err));
-  }
-};
+export const getOEM =
+  (token, page = 1, search = "") =>
+  async (dispatch) => {
+    // console.log(page, search);
+    dispatch(Data_Req_action());
+    try {
+      if (search != "") {
+        const res = await axios.get(`${url}oem_specs?search=${search}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(Data_Success_action(res.data.data));
+      } else {
+        const res = await axios.get(`${url}oem_specs?page=${page}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        dispatch(Data_Success_action(res.data.data));
+      }
+      // console.log(res.data);
+    } catch (err) {
+      console.log(err);
+      dispatch(Data_Failure_action(err));
+    }
+  };
