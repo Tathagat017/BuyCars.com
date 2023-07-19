@@ -18,17 +18,23 @@ function Data_Failure_action(payload) {
 
 let url = process.env.REACT_APP_URL;
 
-export const getData = () => async (dispatch) => {
-  dispatch(Data_Req_action());
-  try {
-    const res = await axios.get(`${url}inventory/`);
-    console.log(res.data);
-    dispatch(Data_Success_action(res.data));
-  } catch (err) {
-    console.log(err);
-    dispatch(Data_Failure_action(err));
-  }
-};
+export const getData =
+  (token, page = 1, search = "") =>
+  async (dispatch) => {
+    dispatch(Data_Req_action());
+    try {
+      const res = await axios.get(`${url}inventory/`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(res.data);
+      dispatch(Data_Success_action(res.data));
+    } catch (err) {
+      console.log(err);
+      dispatch(Data_Failure_action(err));
+    }
+  };
 
 export const postData = (token, obj) => async (dispatch) => {
   dispatch(Data_Req_action());

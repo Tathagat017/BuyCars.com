@@ -61,6 +61,7 @@ const Login = () => {
           colorScheme: "orange",
         });
         sessionStorage.setItem("auth", JSON.stringify({ auth: true }));
+        navigate("/deals");
       } else {
         toast({
           title: `login failure`,

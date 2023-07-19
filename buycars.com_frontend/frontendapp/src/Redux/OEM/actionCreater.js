@@ -17,7 +17,7 @@ let url = process.env.REACT_APP_URL;
 export const getOEM =
   (token, page = 1, search = "") =>
   async (dispatch) => {
-    // console.log(page, search);
+    console.log(url);
     dispatch(Data_Req_action());
     try {
       if (search != "") {
@@ -27,6 +27,7 @@ export const getOEM =
           },
         });
         dispatch(Data_Success_action(res.data.data));
+        console.log(res.data.data);
       } else {
         const res = await axios.get(`${url}oem_specs?page=${page}`, {
           headers: {

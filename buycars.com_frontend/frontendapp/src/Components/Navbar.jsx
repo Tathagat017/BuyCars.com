@@ -1,16 +1,16 @@
 import React from "react";
 import styles from "./Navbar.module.css";
 import { HamburgerIcon } from "@chakra-ui/icons";
-
+import { Link } from "react-router-dom";
 import {
   Flex,
   Box,
   useDisclosure,
   Stack,
-  Link,
   Text,
   Heading,
   Image,
+  Link as LinkChakra,
 } from "@chakra-ui/react";
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -28,7 +28,7 @@ const Navbar = () => {
     >
       <Flex alignItems="center" wrap="wrap">
         <Flex flexGrow={1} justify="center">
-          <Link href="/">
+          <LinkChakra href="/">
             <Box ml={[4, 0]} textAlign={"center"}>
               <Flex
                 justifyContent={"center"}
@@ -39,7 +39,7 @@ const Navbar = () => {
                 <Text color={"orange.200"}>BuyCars.com</Text>
               </Flex>
             </Box>
-          </Link>
+          </LinkChakra>
         </Flex>
         <HamburgerIcon
           onClick={isOpen ? onClose : onOpen}
@@ -62,10 +62,12 @@ const Navbar = () => {
           justifyContent={"center"}
           textDecor={"none"}
         >
-          <Link href="/">Home</Link>
-          <Link href="/deals">Deals</Link>
-          <Link href="/inventory">Inventory</Link>
-          <Link href="/signin">Signup/Login</Link>
+          <Link to="/">
+            <Text>Home</Text>
+          </Link>
+          <Link to="/deals">Deals</Link>
+          <Link to="/inventory">Inventory</Link>
+          <Link to="/signin">Signup/Login</Link>
         </Stack>
       </Flex>
     </Flex>

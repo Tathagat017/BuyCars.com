@@ -31,7 +31,7 @@ const Deals = () => {
   //const [searchTerm, lastExecutedTime] = useDebounce(search, 200);
   useEffect(() => {
     dispatch(getOEM(token, page));
-    // console.log(oem_specs);
+    console.log(oem_specs);
   }, [page]);
 
   const handlePageNext = (page) => {
