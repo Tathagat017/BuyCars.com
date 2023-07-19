@@ -31,6 +31,9 @@ const Inventory = () => {
   const { token } = useSelector((store) => store.auth);
   const { inventory_data } = useSelector((store) => store.inventory);
   const dispatch = useDispatch();
+  const [color, setColor] = useState("");
+  const [price, setPrice] = useState(10000);
+  const [mileage, setMileage] = useState(1);
   //const [searchTerm, lastExecutedTime] = useDebounce(search, 200);
   useEffect(() => {
     dispatch(getData(token, page));
@@ -47,6 +50,18 @@ const Inventory = () => {
 
   const handleSearch = () => {
     dispatch(getData(token, page, search));
+  };
+
+  const handleFilterPrice = (e) => {
+    dispatch(getData(token, page, price));
+  };
+
+  const handleFilterMileage = (e) => {
+    dispatch(getData(token, page, mileage));
+  };
+
+  const handleFilterColor = (e) => {
+    dispatch(getData(token, page, color));
   };
 
   return (
