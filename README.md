@@ -37,7 +37,7 @@
 <li>Pagination : 10 results at a time</li>
 </ul>
 
-##ADD CAR DETAILS DRAWER
+## ADD CAR DETAILS DRAWER
 ![add](https://github.com/Tathagat017/BuyCars.com/assets/114250830/58e9c7ce-5f5a-4645-98bc-1a418322168c)
 
 ![afteradd](https://github.com/Tathagat017/BuyCars.com/assets/114250830/0559024a-1449-4696-9c87-b345017216c0)
