@@ -79,7 +79,7 @@ const Deals = () => {
           </Thead>
           <Tbody>
             {oem_specs?.map((el) => {
-              return <TableRow el={el} />;
+              return <TableRow el={el} key={el._id} />;
             })}
           </Tbody>
         </Table>

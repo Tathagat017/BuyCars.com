@@ -53,23 +53,20 @@ const Login = () => {
       return alert("Please fill the email");
     } else {
       dispatch(login(userDetails.email, userDetails.password));
-      if (isAuth) {
-        toast({
-          title: `Login successful`,
-          position: "top",
-          isClosable: true,
-          colorScheme: "orange",
-        });
-        sessionStorage.setItem("auth", JSON.stringify({ auth: true }));
-        navigate("/deals");
-      } else {
-        toast({
-          title: `login failure`,
-          position: "bottom",
-          isClosable: true,
-          colorScheme: "orange",
-        });
-      }
+
+      setTimeout(() => {
+        {
+          //  console.log(1);
+          toast({
+            title: `Login successful`,
+            position: "top",
+            isClosable: true,
+            colorScheme: "orange",
+          });
+          sessionStorage.setItem("auth", JSON.stringify({ auth: true }));
+          navigate("/deals");
+        }
+      }, 3000);
     }
   };
 

@@ -50,6 +50,7 @@ export const login = (email, password) => async (dispatch) => {
 
     dispatch(loginSuccessAction(res.data.token));
   } catch (err) {
+    alert("Login failed");
     dispatch(loginFailureAction());
     console.log(err);
   }

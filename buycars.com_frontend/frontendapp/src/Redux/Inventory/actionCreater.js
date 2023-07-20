@@ -23,13 +23,23 @@ export const getData =
   async (dispatch) => {
     dispatch(Data_Req_action());
     try {
-      const res = await axios.get(`${url}inventory/`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(res.data);
-      dispatch(Data_Success_action(res.data));
+      if (search !== "") {
+        const res = await axios.get(`${url}inventory?search=${search}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(res.data);
+        dispatch(Data_Success_action(res.data));
+      } else {
+        const res = await axios.get(`${url}inventory/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(res.data);
+        dispatch(Data_Success_action(res.data));
+      }
     } catch (err) {
       console.log(err);
       dispatch(Data_Failure_action(err));
@@ -46,7 +56,7 @@ export const postData = (token, obj) => async (dispatch) => {
       },
     });
     // console.log(res.data);
-    dispatch(Data_Success_action(res.data));
+    dispatch(Data_Success_action(res.data.data));
   } catch (err) {
     console.log(err);
     dispatch(Data_Failure_action(err));
@@ -97,6 +107,48 @@ export const deletehDataMany = (token, obj, id) => async (dispatch) => {
     });
     // console.log(res.data);
     dispatch(Data_Success_action(res.data));
+  } catch (err) {
+    console.log(err);
+    dispatch(Data_Failure_action(err));
+  }
+};
+
+export const getDataFilter =
+  (token, filterword, filter) => async (dispatch) => {
+    console.log(filter, filterword);
+    dispatch(Data_Req_action());
+    try {
+      {
+        console.log(filter);
+        const res = await axios.get(`${url}inventory?${filterword}=${filter}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        console.log(res.data);
+        dispatch(Data_Success_action(res.data));
+      }
+    } catch (err) {
+      console.log(err);
+      dispatch(Data_Failure_action(err));
+    }
+  };
+
+export const getDataSort = (token, sort) => async (dispatch) => {
+  dispatch(Data_Req_action());
+  try {
+    {
+      const res = await axios.get(
+        `${url}inventory?sort="price"&sortBy=${"price"}&sortOrder=${sort}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      dispatch(Data_Success_action(res.data));
+    }
   } catch (err) {
     console.log(err);
     dispatch(Data_Failure_action(err));

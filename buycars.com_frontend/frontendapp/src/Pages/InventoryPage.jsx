@@ -21,7 +21,11 @@ import {
 
 import TableRow from "./../Components/TableRow";
 import useDebounce from "../CutomHooks/UseThrottle";
-import { getData } from "../Redux/Inventory/actionCreater";
+import {
+  getData,
+  getDataFilter,
+  getDataSort,
+} from "../Redux/Inventory/actionCreater";
 import InventoryRow from "../Components/Inventory_Card";
 
 const Inventory = () => {
@@ -29,15 +33,17 @@ const Inventory = () => {
   const [search, setSearch] = useState("");
   const isTableFullWidth = useBreakpointValue({ base: true, md: false });
   const { token } = useSelector((store) => store.auth);
-  const { inventory_data } = useSelector((store) => store.inventory);
+  const { inventory_specs } = useSelector((store) => store.inventory);
   const dispatch = useDispatch();
   const [color, setColor] = useState("");
   const [price, setPrice] = useState(10000);
   const [mileage, setMileage] = useState(1);
+  const [sort, setSort] = useState("");
+  const [trig, setTrig] = useState(false);
   //const [searchTerm, lastExecutedTime] = useDebounce(search, 200);
   useEffect(() => {
-    dispatch(getData(token, page));
-    // console.log(oem_specs);
+    dispatch(getData(token, page, search, color, mileage, price, sort));
+    console.log(inventory_specs);
   }, [page]);
 
   const handlePageNext = (page) => {
@@ -53,15 +59,31 @@ const Inventory = () => {
   };
 
   const handleFilterPrice = (e) => {
-    dispatch(getData(token, page, price));
+    setPrice(e.target.value);
+    // (token, page = 1, search = "", filter = "", sort = "", sortOrder)
+    let filterword = "price";
+    dispatch(getDataFilter(token, filterword, price));
+    setTrig((prev) => !prev);
   };
 
   const handleFilterMileage = (e) => {
-    dispatch(getData(token, page, mileage));
+    setMileage(e.target.value);
+    let filterword = "mileage";
+    dispatch(getDataFilter(token, filterword, mileage));
+    setTrig((prev) => !prev);
   };
 
   const handleFilterColor = (e) => {
-    dispatch(getData(token, page, color));
+    let filterword = "color";
+    setColor(e.target.value);
+    dispatch(getDataFilter(token, filterword, color));
+    setTrig((prev) => !prev);
+  };
+
+  const handleSort = (e) => {
+    setSort(e.target.value);
+    dispatch(getDataSort(token, sort));
+    setTrig((prev) => !prev);
   };
 
   return (
@@ -69,17 +91,35 @@ const Inventory = () => {
       <TableContainer>
         <Flex justifyContent={"space-evenly"}>
           <Button onClick={handlePagePrev}>Previous</Button>
-          <Select placeholder="Filter By Mileage ">
-            <option value="1-10">1-10</option>
-            <option value="10-20">10 -20</option>
-            <option value="20-40">20-40</option>
+          <Select
+            placeholder="Filter By Mileage"
+            onChange={(e) => handleFilterMileage(e)}
+          >
+            <option value="5">greater than 5</option>
+            <option value="10">greater than 10</option>
+            <option value="15">greater than 15</option>
+            <option value="20">greater than 20</option>
+            <option value="25">greater than 25</option>
+            <option value="30">greater than 30</option>
           </Select>
-          <Select placeholder="Filter By Price">
-            <option value="100000">less than 100000</option>
+          <Select
+            placeholder="Filter By Price"
+            onChange={(e) => handleFilterPrice(e)}
+          >
+            <option value="10000">less than 10000</option>
             <option value="200000">less than 200000</option>
-            <option value="300000">less than 300000 </option>
+            <option value="350000">less than 350000</option>
+            <option value="600000">less than 600000 </option>
           </Select>
-          <Select placeholder="Filter By Color">
+
+          <Select placeholder="Sort By Price" onChange={(e) => handleSort(e)}>
+            <option value="asc">Low to High</option>
+            <option value="desc">Hight to low</option>
+          </Select>
+          <Select
+            placeholder="Filter By Color"
+            onChange={(e) => handleFilterColor(e)}
+          >
             <option value="Red">Red</option>
             <option value="Yellow">Yellow</option>
             <option value="Black">Black</option>
@@ -99,8 +139,8 @@ const Inventory = () => {
           <TableCaption size="sm">Inventory</TableCaption>
 
           <Tbody>
-            {inventory_data?.map((el) => {
-              return <InventoryRow el={el} />;
+            {inventory_specs.data?.map((el) => {
+              return <InventoryRow el={el} key={el._id} />;
             })}
           </Tbody>
         </Table>
