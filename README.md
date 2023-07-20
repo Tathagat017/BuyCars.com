@@ -51,10 +51,6 @@
 </ul>
 
 
-# Installation
-1. Clone the repository: `git clone https://github.com/Tathagat017/CaloFit.git`
-2. Install dependencies: `npm install`
-3. Start the development server: `npm start`
 # Created by
 <ul>
 <li><a href='https://github.com/Tathagat017'>Tathagat</a></li>
