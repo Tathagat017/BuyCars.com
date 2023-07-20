@@ -29,7 +29,7 @@ export const getData =
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(res.data);
+        //console.log(res.data);
         dispatch(Data_Success_action(res.data));
       } else {
         const res = await axios.get(`${url}inventory/`, {
@@ -37,7 +37,7 @@ export const getData =
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(res.data);
+        // console.log(res.data);
         dispatch(Data_Success_action(res.data));
       }
     } catch (err) {
@@ -47,16 +47,24 @@ export const getData =
   };
 
 export const postData = (token, obj) => async (dispatch) => {
+  console.log("here");
   dispatch(Data_Req_action());
   try {
-    console.log(token, obj);
-    const res = await axios.post(`${url}inventory/add`, obj, {
+    const config = {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    });
+    };
+    //console.log(token, obj);
+    axios
+      .post(`${url}inventory/add`, obj, config)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
     // console.log(res.data);
-    dispatch(Data_Success_action(res.data.data));
   } catch (err) {
     console.log(err);
     dispatch(Data_Failure_action(err));

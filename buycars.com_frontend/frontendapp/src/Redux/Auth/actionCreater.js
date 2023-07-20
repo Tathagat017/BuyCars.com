@@ -33,6 +33,7 @@ export const signupFunction =
     try {
       const res = await axios.post(`${url}user/signup`, obj);
       dispatch(signupSucesssAction());
+      sessionStorage.setItem("full_name", full_name);
     } catch (err) {
       dispatch(loginFailureAction());
       console.log(err);

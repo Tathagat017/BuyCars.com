@@ -3,12 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   Table,
-  Thead,
   Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
   TableCaption,
   TableContainer,
   Box,
@@ -17,10 +12,9 @@ import {
   Flex,
   Input,
   Select,
+  GridItem,
 } from "@chakra-ui/react";
-
-import TableRow from "./../Components/TableRow";
-import useDebounce from "../CutomHooks/UseThrottle";
+import { Grid } from "@chakra-ui/react";
 import {
   getData,
   getDataFilter,
@@ -137,11 +131,14 @@ const Inventory = () => {
         </Flex>
         <Table size={isTableFullWidth ? "md" : "sm"}>
           <TableCaption size="sm">Inventory</TableCaption>
-
           <Tbody>
-            {inventory_specs.data?.map((el) => {
-              return <InventoryRow el={el} key={el._id} />;
-            })}
+            <Grid cellSpacing="10" templateColumns="repeat(2, 1fr)" gap={20}>
+              <GridItem>
+                {inventory_specs.data?.map((el) => {
+                  return <InventoryRow el={el} key={el._id} />;
+                })}
+              </GridItem>
+            </Grid>
           </Tbody>
         </Table>
       </TableContainer>

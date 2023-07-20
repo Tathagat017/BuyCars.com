@@ -15,14 +15,16 @@ import {
   DrawerBody,
   Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import ColorSquares from "./SquareBoxes";
-import { postData } from "../Redux/Inventory/actionCreater";
-
+import { getData, postData } from "../Redux/Inventory/actionCreater";
+import axios from "axios";
 const TableRow = ({ el }) => {
   const { token } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
   const btnRef = React.useRef();
   const [dealerDetails, setDealerDetails] = useState({
     vehicle_oem_name: el.vehicle_oem_name,
@@ -65,18 +67,26 @@ const TableRow = ({ el }) => {
     ) {
       value = Number(value);
     }
+
     setDealerDetails((prevDetails) => ({
       ...prevDetails,
       [name]: value,
+      vehicle_available_colors: ["Red", "Black"],
     }));
     //console.log(dealerDetails);
   };
 
-  const handlePostData = (e, dealerDetails, token) => {
+  const handlePostData = async (e, dealerDetails, token) => {
     e.preventDefault();
     // console.log(dealerDetails, token);
     dispatch(postData(token, dealerDetails));
-    console.log("ps");
+    toast({
+      title: `Data added successfully`,
+      position: "top",
+      isClosable: true,
+      colorScheme: "orange",
+    });
+    dispatch(getData(token));
   };
 
   return (
@@ -130,11 +140,16 @@ const TableRow = ({ el }) => {
 
             <Text>Available Colors</Text>
             <Input
-              placeholder="max speed"
+              placeholder="vehicle_available_colors"
               value={el.vehicle_available_colors}
+              name="vehicle_available_colors"
             />
             <Text>Power</Text>
-            <Input placeholder="Power" value={el.vehicle_power} />
+            <Input
+              placeholder="Power"
+              name="vehicle_power"
+              value={el.vehicle_power}
+            />
 
             <Text>Image</Text>
             <Input placeholder="Image" value={el.image} />
@@ -190,7 +205,7 @@ const TableRow = ({ el }) => {
             />
             <Text> vehicle_dealer_price</Text>
             <Input
-              placeholder="vehicle_current_location"
+              placeholder="vehicle_dealer_price"
               value={dealerDetails.vehicle_dealer_price}
               name="vehicle_dealer_price"
               onChange={(e) => handleInput(e)}
