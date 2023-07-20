@@ -63,7 +63,7 @@ const Login = () => {
             isClosable: true,
             colorScheme: "orange",
           });
-          sessionStorage.setItem("auth", JSON.stringify({ auth: true }));
+
           navigate("/deals");
         }
       }, 3000);
