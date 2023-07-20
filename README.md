@@ -37,10 +37,15 @@
 <li>Pagination : 10 results at a time</li>
 </ul>
 
+##ADD CAR DETAILS DRAWER
+![add](https://github.com/Tathagat017/BuyCars.com/assets/114250830/58e9c7ce-5f5a-4645-98bc-1a418322168c)
+
+![afteradd](https://github.com/Tathagat017/BuyCars.com/assets/114250830/0559024a-1449-4696-9c87-b345017216c0)
+
 ## Inventory Page
 ![inventory](https://github.com/Tathagat017/BuyCars.com/assets/114250830/4222433e-3f4a-4df0-b0fe-58ee01885abe)
 
-<ul>
+<ul>search available cars</li>
 <li>Filter : mileage(greater than),price,color,sort based on price(LTH/HTL)</li>
 <li>Pagination : 10 results at a time</li>
 </ul>
