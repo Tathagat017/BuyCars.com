@@ -109,7 +109,15 @@ const TableRow = ({ el }) => {
           <Image src={el.image} />
         </Td>
         <Td>
-          <Button onClick={handleSelect}>Select</Button>
+          <Button
+            onClick={handleSelect}
+            variant={"outline"}
+            bg={"gray.200"}
+            color={"blackAlpha.900"}
+            _hover={{ bg: "orange.300", color: "black" }}
+          >
+            Select
+          </Button>
         </Td>
       </Tr>
 

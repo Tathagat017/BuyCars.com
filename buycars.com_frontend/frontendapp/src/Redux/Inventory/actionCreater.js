@@ -71,17 +71,17 @@ export const postData = (token, obj) => async (dispatch) => {
   }
 };
 
-export const patchData = (token, id) => async (dispatch) => {
+export const patchData = (token, id, obj) => async (dispatch) => {
   dispatch(Data_Req_action());
   try {
-    console.log(token);
-    const res = await axios.patch(`${url}inventory/deal/${id}`, {
+    //console.log(token, obj);
+    const res = await axios.patch(`${url}inventory/deal/${id}`, obj, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    // console.log(res.data);
-    dispatch(Data_Success_action(res.data));
+    //console.log(res);
+    alert("Edit succesfully done");
   } catch (err) {
     console.log(err);
     dispatch(Data_Failure_action(err));
@@ -91,13 +91,13 @@ export const patchData = (token, id) => async (dispatch) => {
 export const deletehData = (token, id) => async (dispatch) => {
   dispatch(Data_Req_action());
   try {
+    console.log("delete", id);
     const res = await axios.delete(`${url}inventory/deal/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
     // console.log(res.data);
-    dispatch(Data_Success_action(res.data));
   } catch (err) {
     console.log(err);
     dispatch(Data_Failure_action(err));
@@ -114,7 +114,6 @@ export const deletehDataMany = (token, obj, id) => async (dispatch) => {
       },
     });
     // console.log(res.data);
-    dispatch(Data_Success_action(res.data));
   } catch (err) {
     console.log(err);
     dispatch(Data_Failure_action(err));
@@ -147,7 +146,8 @@ export const getDataSort = (token, sort) => async (dispatch) => {
   try {
     {
       const res = await axios.get(
-        `${url}inventory?sort="price"&sortBy=${"price"}&sortOrder=${sort}`,
+        `${url}inventory?sort="vehicle_dealer_price
+"&sortBy=${"vehicle_dealer_price"}&sortOrder=${sort}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

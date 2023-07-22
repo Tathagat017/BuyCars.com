@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
   CardBody,
@@ -14,97 +14,210 @@ import {
   Image,
   Input,
 } from "@chakra-ui/react";
-import { deletehData } from "../Redux/Inventory/actionCreater";
+import {
+  deletehData,
+  patchData,
+  getData,
+} from "../Redux/Inventory/actionCreater";
 
-const InventoryRow = ({ el }) => {
+const InventoryRow = ({ el, setTrig }) => {
   // console.log(el);
-  const [edit, useEdit] = useState(true);
+  const [edit, setEdit] = useState(true);
   const dispatch = useDispatch();
+  let [same, setSame] = useState(false);
+  const [editDetials, setEditDetails] = useState({
+    ...el,
+  });
+  const { token } = useSelector((state) => state.auth);
   function handleDelete(id) {}
-  let name = "";
+  let dealerId = "";
   useEffect(() => {
-    name = sessionStorage.getItem("full_name") || null;
+    dealerId = sessionStorage.getItem("dealerId") || null;
+    if (dealerId == el.dealerId) {
+      setSame(true);
+    }
   }, []);
 
   function handleDelete(id) {
-    dispatch(deletehData(id));
+    dispatch(deletehData(token, id));
+    setTrig((p) => !p);
   }
 
-  const handleEdit = (id) => {};
+  const handleEdit = (id) => {
+    // console.log(editDetials);
+    dispatch(patchData(token, id, editDetials));
+    // setTrig((p) => !p);
+    setEdit((prev) => !prev);
+    dispatch(getData(token, 1, "", "", "", "", ""));
+  };
 
+  const handleInputChange = (e) => {
+    let { name, value } = e.target;
+    if (
+      name == "vehicle_ex_showroom_price" ||
+      name == "vehicle_mileage" ||
+      name == "vehicle_power" ||
+      name == "vehicle_max_speed" ||
+      name == "odomoter_reading" ||
+      name == " major_scrates" ||
+      name == "vehicle_previous_accidents" ||
+      name == "number_of_previous_buyers" ||
+      name == "vehicle_dealer_price"
+    ) {
+      value = Number(value);
+    }
+
+    setEditDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+
+    // console.log(editDetials);
+  };
+  el = { ...editDetials };
   return (
-    <Box>
-      <Card maxW="sm">
-        <CardBody>
-          <Image src={el.image} borderRadius="lg" />
+    <Box
+      style={{
+        boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+        width: "100%",
+      }}
+    >
+      <Card maxW="xs">
+        <CardBody border={"0px"}>
+          <Image src={el.image} borderRadius="lg" m={"auto"} />
           <Stack mt="6" spacing="3">
             <Heading size="md">{el.title}</Heading>
             {edit ? (
               <Text>Dealer :{el.dealer_full_name}</Text>
             ) : (
-              <Input type="text" name="dealer_full_name"></Input>
+              <Input
+                type="text"
+                name="dealer_full_name"
+                placeholder={`Dealer Name : ${el.dealer_full_name}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
             {edit ? (
               <Text> Car Model : {el.vehicle_model_name}</Text>
             ) : (
-              <Input type="text" name="vehicle_model_name"></Input>
+              <Input
+                type="text"
+                name="vehicle_model_name"
+                placeholder={`Model : ${el.vehicle_model_name}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
             {edit ? (
               <Text> Year of Launch : {el.year_of_launch}</Text>
             ) : (
-              <Input type="text" name="year_of_launch"></Input>
+              <Input
+                type="text"
+                name="year_of_launch"
+                placeholder={`Year : ${el.year_of_launch}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
             {edit ? (
               <Text> Mileage : {el.vehicle_mileage}</Text>
             ) : (
-              <Input type="text" name="vehicle_mileage"></Input>
+              <Input
+                type="text"
+                name="vehicle_mileage"
+                placeholder={`Mileage : ${el.vehicle_mileage}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
             {edit ? (
               <Text> Max Speed : {el.vehicle_max_speed} km/h</Text>
             ) : (
-              <Input type="number" name="vehicle_max_speed"></Input>
+              <Input
+                type="number"
+                name="vehicle_max_speed"
+                placeholder={`Speed : ${el.vehicle_max_speed}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
             {edit ? (
               <Text> Odometer : {el.odomoter_reading} Kms</Text>
             ) : (
-              <Input type="number" name="odomoter_reading"></Input>
+              <Input
+                type="number"
+                name="odomoter_reading"
+                placeholder={`Odomoter Reading : ${el.odomoter_reading}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
             {edit ? (
               <Text> Original Paint : {el.vehicle_original_paint}</Text>
             ) : (
-              <Input></Input>
+              <Input
+                type="text"
+                name="vehicle_original_paint"
+                placeholder={`Original Paint : ${el.vehicle_original_paint}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
             {edit ? (
               <Text> Major Scatches : {el.major_scrates}</Text>
             ) : (
-              <Input></Input>
+              <Input
+                type="number"
+                name="major_scrates"
+                placeholder={`Major Scatches : ${el.major_scrates}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
             {edit ? (
-              <Text>Ex-showroom-price : {el.vehicle_ex_showroom_price}</Text>
+              <Text>Ex-showroom-price: Rs {el.vehicle_ex_showroom_price}</Text>
             ) : (
-              <Input></Input>
+              <Input
+                type="number"
+                name="vehicle_ex_showroom_price"
+                placeholder={`Ex-showroom-price: Rs : ${el.vehicle_ex_showroom_price}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
             {edit ? (
               <Text> Previous Accidents : {el.vehicle_previous_accidents}</Text>
             ) : (
-              <Input></Input>
+              <Input
+                type="number"
+                name="vehicle_previous_accidents"
+                placeholder={`Previous Accidents: ${el.vehicle_previous_accidents}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
             {edit ? (
               <Text> Registered at : {el.vehicle_registration_location}</Text>
             ) : (
-              <Input></Input>
+              <Input
+                type="text"
+                name="vehicle_registration_location"
+                placeholder={`Registered at: ${el.vehicle_registration_location}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
             {edit ? (
               <Text> Current Location : {el.vehicle_current_location}</Text>
             ) : (
-              <Input></Input>
+              <Input
+                type="text"
+                name="vehicle_current_location"
+                placeholder={`Current Location: ${el.vehicle_current_location}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
             {edit ? (
               <Text color="orange" fontSize="2xl">
-                Price : {el.vehicle_dealer_price}
+                Price : Rs.{el.vehicle_dealer_price}
               </Text>
             ) : (
-              <Input></Input>
+              <Input
+                type="number"
+                name="vehicle_dealer_price"
+                placeholder={` Price : Rs. ${el.vehicle_dealer_price}`}
+                onChange={(e) => handleInputChange(e)}
+              ></Input>
             )}
           </Stack>
         </CardBody>
@@ -117,21 +230,36 @@ const InventoryRow = ({ el }) => {
               _hover={{ bg: "orange.300", color: "black" }}
               variant="solid"
               colorScheme="blue"
-              isDisabled={el.dealer_full_name == name ? false : true}
-              // hidden={el.dealer_full_name == name ? false : true}
+              isDisabled={!same}
+              hidden={!same}
+              onClick={(e) => setEdit((edit) => !edit)}
             >
               Edit
             </Button>
-            <Button
-              variant="ghost"
-              colorScheme="blackAlpha.500"
-              _hover={{ bg: "orange.300", color: "black" }}
-              isDisabled={el.dealer_full_name == name ? false : true}
-              // hidden={el.dealer_full_name == name ? false : true}
-              onClick={() => handleDelete(el._id)}
-            >
-              Delete
-            </Button>
+
+            {edit ? (
+              <Button
+                variant="ghost"
+                colorScheme="blackAlpha.500"
+                _hover={{ bg: "orange.300", color: "black" }}
+                isDisabled={!same}
+                hidden={!same}
+                onClick={() => handleDelete(el._id)}
+              >
+                Delete
+              </Button>
+            ) : (
+              <Button
+                variant="ghost"
+                colorScheme="blackAlpha.500"
+                _hover={{ bg: "orange.300", color: "black" }}
+                isDisabled={!same}
+                hidden={!same}
+                onClick={() => handleEdit(el._id)}
+              >
+                save
+              </Button>
+            )}
           </ButtonGroup>
         </CardFooter>
       </Card>

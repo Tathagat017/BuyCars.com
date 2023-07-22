@@ -32,8 +32,8 @@ export const signupFunction =
     dispatch(loginRequestAction());
     try {
       const res = await axios.post(`${url}user/signup`, obj);
+
       dispatch(signupSucesssAction());
-      sessionStorage.setItem("full_name", full_name);
     } catch (err) {
       dispatch(loginFailureAction());
       console.log(err);
@@ -48,7 +48,7 @@ export const login = (email, password) => async (dispatch) => {
     //  console.log(`${url}user/login`, obj);
 
     const res = await axios.post(`${url}user/login`, obj);
-
+    sessionStorage.setItem("dealerId", res.data.dealerId);
     dispatch(loginSuccessAction(res.data.token));
   } catch (err) {
     alert("Login failed");
