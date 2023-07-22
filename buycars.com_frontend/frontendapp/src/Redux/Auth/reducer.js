@@ -3,6 +3,7 @@ import {
   LOGIN_FAILURE,
   LOGIN_SUCCESS,
   LOGIN_REQUEST,
+  LOGOUT_SUCCESS,
 } from "./actionType";
 
 const initialState = {
@@ -34,6 +35,17 @@ export const reducer = (state = initialState, action) => {
 
     case SIGNUP_SUCCESS: {
       return { ...state, isLoading: false, signupsuccess: true };
+    }
+
+    case LOGOUT_SUCCESS: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        isAuth: false,
+        token: "",
+        signupsuccess: false,
+      };
     }
     default: {
       return state;

@@ -77,11 +77,20 @@ const Inventory = () => {
   };
 
   const handleCheckboxChange = (event) => {
-    inventory_specs.data.sort((a, b) => {
-      if (a.date_posted > b.date_posted) {
-        return -1;
-      } else return 1;
-    });
+    if (sortByRecent == true) {
+      inventory_specs.data.sort((a, b) => {
+        if (a.date_posted > b.date_posted) {
+          return 1;
+        } else return -1;
+      });
+    } else {
+      inventory_specs.data.sort((a, b) => {
+        if (a.date_posted > b.date_posted) {
+          return -1;
+        } else return 1;
+      });
+    }
+
     setSortByRecent(event.target.checked);
   };
 
@@ -133,6 +142,9 @@ const Inventory = () => {
         <Button onClick={handleSearch}>Search</Button>
         <Button onClick={handlePageNext}>Next</Button>
       </Flex>
+      <Text fontSize="xs" as="cite">
+        Number of cars in inventory : <b>{inventory_specs.data.length}</b>
+      </Text>
       <Text fontSize="xs" as="cite" color={"orange.300"}>
         {" "}
         Kindly Edit/Delete your entries only : operation available on your deals

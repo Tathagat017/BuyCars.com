@@ -85,6 +85,26 @@ const TableRow = ({ el }) => {
 
   const handlePostData = async (e, dealerDetails, token) => {
     e.preventDefault();
+    //validation
+    if (
+      (dealerDetails.vehicle_oem_name =
+        "" ||
+        dealerDetails.odomoter_reading == "" ||
+        dealerDetails.major_scrates == "" ||
+        dealerDetails.vehicle_original_paint == "" ||
+        dealerDetails.vehicle_previous_accidents == "" ||
+        dealerDetails.number_of_previous_buyers == "" ||
+        dealerDetails.vehicle_registration_location == "" ||
+        dealerDetails.vehicle_current_location == "" ||
+        dealerDetails.vehicle_dealer_price == "")
+    ) {
+      return toast({
+        title: `Please fill all the required details/fields`,
+        position: "top",
+        isClosable: true,
+        colorScheme: "red",
+      });
+    }
     // console.log(dealerDetails, token);
     dispatch(postData(token, dealerDetails));
     dispatch(getData(token));

@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import useThrottle from "../CutomHooks/UseThrottle";
 import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
-  Td,
   TableCaption,
   TableContainer,
   Box,
@@ -18,10 +16,7 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import { getOEM, postOEM } from "../Redux/OEM/actionCreater";
-import TableRow from "./../Components/TableRow";
-import useDebounce from "../CutomHooks/UseThrottle";
-import styles from "./Deal.module.css";
+
 import {
   Modal,
   ModalOverlay,
@@ -32,6 +27,13 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+
+import { getOEM, postOEM } from "../Redux/OEM/actionCreater";
+
+import TableRow from "./../Components/TableRow";
+
+import styles from "./Deal.module.css";
+
 const Deals = () => {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./Navbar.module.css";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
@@ -8,12 +8,30 @@ import {
   useDisclosure,
   Stack,
   Text,
-  Heading,
   Image,
   Link as LinkChakra,
+  Button,
+  useToast,
 } from "@chakra-ui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../Redux/Auth/actionCreater";
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isAuth } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+  const toast = useToast();
+  const handleLogout = () => {
+    // window.location.reload();
+    dispatch(logoutUser());
+    //console.log(isAuth);
+    toast({
+      title: `Logout successful`,
+      position: "top",
+      isClosable: true,
+      colorScheme: "orange",
+    });
+  };
+
   return (
     <Flex
       py={2}
@@ -67,7 +85,18 @@ const Navbar = () => {
           </Link>
           <Link to="/deals">Car Details</Link>
           <Link to="/inventory">Inventory</Link>
-          <Link to="/signin">Signup/Login</Link>
+          {!isAuth ? (
+            <Link to="/signin">Signup/Login</Link>
+          ) : (
+            <Button
+              bg={"#282c34"}
+              color={"orange.400"}
+              _hover={{ bg: "orange.300", color: "black" }}
+              onClick={handleLogout}
+            >
+              Logout
+            </Button>
+          )}
         </Stack>
       </Flex>
     </Flex>

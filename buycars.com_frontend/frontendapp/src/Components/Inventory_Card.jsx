@@ -54,6 +54,27 @@ const InventoryRow = ({ el, setTrig }) => {
 
   const handleEdit = (id) => {
     //console.log(editDetials);
+
+    if (
+      (editDetials.vehicle_oem_name =
+        "" ||
+        editDetials.odomoter_reading == "" ||
+        editDetials.major_scrates == "" ||
+        editDetials.vehicle_original_paint == "" ||
+        editDetials.vehicle_previous_accidents == "" ||
+        editDetials.number_of_previous_buyers == "" ||
+        editDetials.vehicle_registration_location == "" ||
+        editDetials.vehicle_current_location == "" ||
+        editDetials.vehicle_dealer_price == "")
+    ) {
+      return toast({
+        title: `Please fill all the required details/fields`,
+        position: "top",
+        isClosable: true,
+        colorScheme: "red",
+      });
+    }
+
     dispatch(patchData(token, id, editDetials));
     // setTrig((p) => !p);
     setEdit((prev) => !prev);

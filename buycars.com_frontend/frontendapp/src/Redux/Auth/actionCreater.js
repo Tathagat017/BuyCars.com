@@ -3,6 +3,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   SIGNUP_SUCCESS,
+  LOGOUT_SUCCESS,
 } from "./actionType";
 import axios from "axios";
 import { signup } from "./actionCreater";
@@ -21,6 +22,10 @@ const loginFailureAction = () => {
 
 const signupSucesssAction = () => {
   return { type: SIGNUP_SUCCESS };
+};
+
+const logoutAction = () => {
+  return { type: LOGOUT_SUCCESS };
 };
 
 const url = process.env.REACT_APP_URL;
@@ -55,4 +60,9 @@ export const login = (email, password) => async (dispatch) => {
     dispatch(loginFailureAction());
     console.log(err);
   }
+};
+
+export const logoutUser = () => async (dispatch) => {
+  dispatch(logoutAction());
+  sessionStorage.removeItem("dealerId");
 };
