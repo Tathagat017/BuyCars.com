@@ -134,10 +134,16 @@ const Deals = () => {
             color={"orange.300"}
             _hover={{ bg: "orange.200", color: "black", cursor: "pointer" }}
             onClick={handleAddModelClick}
+            textDecor={"underline"}
           >
             Not finding the model of your choice? Click here to add new OEM
             model and specs
           </Button>
+          <br></br>
+          <Text fontSize="xs" as="cite" color={"orange.300"}>
+            * Click on "Select Model" to select a prexisting model with OEM
+            specs and custimize it to add to inventory
+          </Text>
           <Table
             size={isTableFullWidth ? "md" : "sm"}
             className={styles.table_tiny}
@@ -173,6 +179,13 @@ const Deals = () => {
             </Tbody>
           </Table>
         </TableContainer>
+        <Button
+          variant={"ghost"}
+          isActive={false}
+          _hover={{ cursor: "default" }}
+        >
+          Page : {page}/9
+        </Button>
       </Box>
       <Modal isOpen={isModalOpen} onClose={onModalClose}>
         <ModalOverlay />

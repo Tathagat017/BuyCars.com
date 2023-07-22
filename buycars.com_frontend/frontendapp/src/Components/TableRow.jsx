@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import ColorSquares from "./SquareBoxes";
 import { getData, postData } from "../Redux/Inventory/actionCreater";
-
+import { useNavigate } from "react-router-dom";
 const TableRow = ({ el }) => {
   const { token } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
@@ -43,16 +43,17 @@ const TableRow = ({ el }) => {
     vehicle_power: el.vehicle_power,
     image: el.image,
     odomoter_reading: "",
-    major_scrates: 0,
-    vehicle_original_paint: "Red",
-    vehicle_previous_accidents: 0,
-    number_of_previous_buyers: 1,
-    vehicle_registration_location: "Bengaluru",
-    vehicle_current_location: "Bengaluru",
-    vehicle_dealer_price: 10000,
+    major_scrates: "",
+    vehicle_original_paint: "",
+    vehicle_previous_accidents: "",
+    number_of_previous_buyers: "",
+    vehicle_registration_location: "",
+    vehicle_current_location: "",
+    vehicle_dealer_price: "",
     date_posted: Date.now(),
   });
 
+  const navigate = useNavigate();
   const handleSelect = () => {
     onDrawerOpen();
   };
@@ -86,13 +87,18 @@ const TableRow = ({ el }) => {
     e.preventDefault();
     // console.log(dealerDetails, token);
     dispatch(postData(token, dealerDetails));
-    toast({
-      title: `Data added successfully`,
-      position: "top",
-      isClosable: true,
-      colorScheme: "orange",
-    });
     dispatch(getData(token));
+    setTimeout(() => {
+      toast({
+        title: `Car added successfully to inventory,navigating to inventory`,
+        position: "top",
+        isClosable: true,
+        colorScheme: "orange",
+      });
+    }, 300);
+    setTimeout(() => {
+      navigate("/inventory");
+    }, 500);
   };
 
   return (
@@ -233,7 +239,7 @@ const TableRow = ({ el }) => {
               name="vehicle_previous_accidents"
               onChange={(e) => handleInput(e)}
             />
-            <Text> vehicle_previous_accidents</Text>
+            <Text> number of previous buyers</Text>
             <Input
               placeholder="number_of_previous_buyers"
               value={dealerDetails.number_of_previous_buyers}

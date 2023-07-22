@@ -11,6 +11,7 @@ import {
   GridItem,
   VStack,
   Text,
+  Checkbox,
 } from "@chakra-ui/react";
 import { Grid } from "@chakra-ui/react";
 import {
@@ -32,11 +33,12 @@ const Inventory = () => {
   const [mileage, setMileage] = useState("");
   const [sort, setSort] = useState("");
   const [trig, setTrig] = useState(false);
+  const [sortByRecent, setSortByRecent] = useState(false);
   //const [searchTerm, lastExecutedTime] = useDebounce(search, 200);
   useEffect(() => {
     dispatch(getData(token, page, search, color, mileage, price, sort));
     // console.log(inventory_specs);
-  }, [page]);
+  }, [page, trig]);
 
   const handlePageNext = (page) => {
     setPage((page) => page + 1);
@@ -74,6 +76,15 @@ const Inventory = () => {
     dispatch(getDataSort(token, sort));
   };
 
+  const handleCheckboxChange = (event) => {
+    inventory_specs.data.sort((a, b) => {
+      if (a.date_posted > b.date_posted) {
+        return -1;
+      } else return 1;
+    });
+    setSortByRecent(event.target.checked);
+  };
+
   return (
     <VStack w={"99%"} fontFamily={"sans-serif"} m={"auto"}>
       <Flex justifyContent={"space-around"} w={"100%"}>
@@ -82,12 +93,12 @@ const Inventory = () => {
           placeholder="Filter By Mileage"
           onChange={(e) => handleFilterMileage(e)}
         >
-          <option value="5">greater than 5</option>
-          <option value="10">greater than 10</option>
-          <option value="15">greater than 15</option>
-          <option value="20">greater than 20</option>
-          <option value="25">greater than 25</option>
-          <option value="30">greater than 30</option>
+          <option value="5">greater than or equal to 5</option>
+          <option value="10">greater than or equal to 10</option>
+          <option value="15">greater than or equal to 15</option>
+          <option value="20">greater than or equal to 20</option>
+          <option value="25">greater than or equal to 25</option>
+          <option value="30">greater than or equal to 30</option>
         </Select>
         <Select
           placeholder="Filter By Price"
@@ -127,13 +138,29 @@ const Inventory = () => {
         Kindly Edit/Delete your entries only : operation available on your deals
         else hidden
       </Text>
+      <Box display="flex" alignItems="center">
+        <Checkbox
+          isChecked={sortByRecent}
+          onChange={handleCheckboxChange}
+          size="md"
+          colorScheme="blue"
+          defaultChecked={false}
+        />
+        <Text ml={2} fontFamily={"Titanium Web"}>
+          Sort by most recent
+        </Text>
+      </Box>
       <Box
+        bg={"orange.300"}
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(3,1fr)",
           gridAutoRows: "auto",
-          gap: "5px",
+          gap: "15px",
+
           boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px",
+          margin: "1%",
+          padding: "1%",
         }}
       >
         {inventory_specs.data?.map((el) => {

@@ -74,13 +74,13 @@ export const postData = (token, obj) => async (dispatch) => {
 export const patchData = (token, id, obj) => async (dispatch) => {
   dispatch(Data_Req_action());
   try {
-    //console.log(token, obj);
+    console.log(token, obj, id);
     const res = await axios.patch(`${url}inventory/deal/${id}`, obj, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    //console.log(res);
+    console.log(res);
     alert("Edit succesfully done");
   } catch (err) {
     console.log(err);
