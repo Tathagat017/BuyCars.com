@@ -42,3 +42,19 @@ export const getOEM =
       dispatch(Data_Failure_action(err));
     }
   };
+
+export const postOEM = (token, obj) => async (dispatch) => {
+  dispatch(Data_Req_action());
+  try {
+    const res = await axios.post(`${url}oem_specs/add`, obj, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log(res.data);
+  } catch (err) {
+    console.log(err);
+    dispatch(Data_Failure_action(err));
+  }
+};

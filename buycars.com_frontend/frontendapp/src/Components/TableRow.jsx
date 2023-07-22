@@ -16,14 +16,20 @@ import {
   Input,
   Text,
   useToast,
+  Box,
 } from "@chakra-ui/react";
 import ColorSquares from "./SquareBoxes";
 import { getData, postData } from "../Redux/Inventory/actionCreater";
-import axios from "axios";
+
 const TableRow = ({ el }) => {
   const { token } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isDrawerOpen,
+    onOpen: onDrawerOpen,
+    onClose: onDrawerClose,
+  } = useDisclosure();
+
   const toast = useToast();
   const btnRef = React.useRef();
   const [dealerDetails, setDealerDetails] = useState({
@@ -48,12 +54,13 @@ const TableRow = ({ el }) => {
   });
 
   const handleSelect = () => {
-    onOpen();
+    onDrawerOpen();
   };
 
   const handleInput = (e) => {
     let { name, value } = e.target;
 
+    //console.log(name, value);
     if (
       name == "vehicle_ex_showroom_price" ||
       name == "vehicle_mileage" ||
@@ -67,7 +74,6 @@ const TableRow = ({ el }) => {
     ) {
       value = Number(value);
     }
-
     setDealerDetails((prevDetails) => ({
       ...prevDetails,
       [name]: value,
@@ -109,58 +115,95 @@ const TableRow = ({ el }) => {
           <Image src={el.image} />
         </Td>
         <Td>
-          <Button
-            onClick={handleSelect}
-            variant={"outline"}
-            bg={"gray.200"}
-            color={"blackAlpha.900"}
-            _hover={{ bg: "orange.300", color: "black" }}
-          >
-            Select
-          </Button>
+          <Box style={{ display: "flex", flexDirection: "column" }}>
+            <Button
+              onClick={handleSelect}
+              variant={"outline"}
+              bg={"gray.200"}
+              color={"blackAlpha.900"}
+              _hover={{ bg: "orange.300", color: "black" }}
+              w={"80%"}
+            >
+              Select model
+            </Button>
+          </Box>
         </Td>
       </Tr>
 
       <Drawer
-        isOpen={isOpen}
+        isOpen={isDrawerOpen}
         placement="right"
-        onClose={onClose}
+        onClose={onDrawerClose}
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>Add Vehicle of this model</DrawerHeader>
+          <DrawerHeader fontFamily={"sans-serif"}>
+            Add Vehicle of this model to inventory
+          </DrawerHeader>
 
           <DrawerBody>
             <Text>Manufacturer</Text>
-            <Input placeholder="Manufacturer" value={el.vehicle_oem_name} />
+            <Input
+              placeholder={`${el.vehicle_oem_name}`}
+              value={dealerDetails.vehicle_oem_name}
+              name="vehicle_oem_name"
+              onChange={(e) => handleInput(e)}
+            />
             <Text>Model</Text>
-            <Input placeholder="Model" value={el.vehicle_model_name} />
+            <Input
+              placeholder={`${el.vehicle_model_name}`}
+              value={dealerDetails.vehicle_model_name}
+              name="vehicle_model_name"
+              onChange={(e) => handleInput(e)}
+            />
             <Text>Year</Text>
-            <Input placeholder="Year" value={el.year_of_launch} />
+            <Input
+              placeholder={`${el.year_of_launch}`}
+              value={dealerDetails.year_of_launch}
+              name="year_of_launch"
+              onChange={(e) => handleInput(e)}
+            />
             <Text>Ex_showroom_price</Text>
-            <Input placeholder="price" value={el.vehicle_ex_showroom_price} />
+            <Input
+              placeholder="price"
+              value={dealerDetails.vehicle_ex_showroom_price}
+              name="vehicle_ex_showroom_price"
+              onChange={(e) => handleInput(e)}
+            />
             <Text>Mileage</Text>
-            <Input placeholder="mileage" value={el.vehicle_mileage} />
+            <Input
+              name="vehicle_mileage"
+              value={dealerDetails.vehicle_mileage}
+              placeholder="mileage"
+              onChange={(e) => handleInput(e)}
+            />
             <Text>Max Speed</Text>
-            <Input placeholder="max speed" value={el.vehicle_max_speed} />
+            <Input
+              value={dealerDetails.vehicle_max_speed}
+              name="vehicle_max_speed"
+              placeholder="max speed"
+              onChange={(e) => handleInput(e)}
+            />
 
             <Text>Available Colors</Text>
             <Input
-              placeholder="vehicle_available_colors"
-              value={el.vehicle_available_colors}
+              value={dealerDetails.vehicle_available_colors}
               name="vehicle_available_colors"
+              placeholder="vehicle_available_colors"
+              onChange={(e) => handleInput(e)}
             />
             <Text>Power</Text>
             <Input
+              value={dealerDetails.vehicle_power}
               placeholder="Power"
               name="vehicle_power"
-              value={el.vehicle_power}
+              onChange={(e) => handleInput(e)}
             />
 
             <Text>Image</Text>
-            <Input placeholder="Image" value={el.image} />
+            <Input placeholder="Image" value={dealerDetails.image} />
 
             <Text>Odometer Reading</Text>
             <Input
@@ -220,7 +263,7 @@ const TableRow = ({ el }) => {
             />
           </DrawerBody>
           <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
+            <Button variant="outline" mr={3} onClick={onDrawerClose}>
               Cancel
             </Button>
             <Button
