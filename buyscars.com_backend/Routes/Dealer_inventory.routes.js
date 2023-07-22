@@ -22,14 +22,15 @@ inventoryRouter.get("/", async (req, res) => {
 
 inventoryRouter.post("/add", async (req, res) => {
   try {
-    console.log(req.body.full_name);
-    let inventory_deal = new inventoryModel({
+    console.log(req.body);
+    let inventory_deal = await new inventoryModel({
       ...req.body,
       dealerId: req.body.dealerId,
       dealer_full_name: req.body.full_name,
       date_posted: new Date(),
     });
-    await inventory_deal.save();
+    inventory_deal.save();
+    console.log("save inventory");
     res
       .status(200)
       .send({ messsage: "Request successful,deal added in inventory" });
